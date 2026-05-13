@@ -19,7 +19,9 @@ const NAPOLEAO_IMG = 'img/napoleao.webp';
 const BASILICA_IMG = 'img/basilica.jpg'; 
 const MATRIZ_IMG = 'img/matriz.jpg';
 const NOTREDAME_IMG = 'img/notredame.jpg';
-
+const BRUSQUE_IMG = 'img/brusque.png';
+const CORINTHIANS_IMG = 'img/corinthians.png';
+const FLAMENGO_IMG = 'img/logoflamengo.png';
 
 const questions = [
 
@@ -109,6 +111,16 @@ const questions = [
   //     { label:"PARANÁ",         emoji:"🌲", correct:false },
   //   ]
   // }
+
+  //15
+  {
+    text: "Qual é a imagem do time de futebol da cidade de Brusque?",
+    options: [
+     { label:"Flamengo", img: FLAMENGO_IMG, correct:false  },
+      { label:"Brusque", img: BRUSQUE_IMG, correct:true },
+      { label:"Corinthians", img: CORINTHIANS_IMG, correct:false },
+    ]
+  }
 ];
 
 let curQ = 0, score = 0, lastCorrect = false, answered = false;
