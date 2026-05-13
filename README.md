@@ -33,7 +33,7 @@ Criar um jogo interativo com perguntas e imagens para ensinar crianças sobre:
 
 ```bash id="x2p6v6"
 /
-├── assets/
+├── img/
 ├── index.html
 ├── style.css
 ├── script.js
