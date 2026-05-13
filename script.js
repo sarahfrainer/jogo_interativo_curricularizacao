@@ -2,11 +2,24 @@ const CUCA_IMG = 'img/cuca.jpg';
 const CUSCUZ_IMG = 'img/cuscuz.jpg';
 const MOQUECA_IMG = 'img/moqueca.jpg';
 const FENARRECO_IMG = 'img/Fenarreco.jpg';
-const OKTOBERFEST_IMG = 'img/oktoberfest.webp'
-const CARNAVAL_IMG = 'img/Osterfest.webp'
-const GALINHA_IMG = 'img/Galinha.jpg'
-const MARRECO_IMG = 'img/Marreco.jpg'
-const TUCANO_IMG = 'img/Tucano.webp'
+const OKTOBERFEST_IMG = 'img/oktoberfest.webp';
+const CARNAVAL_IMG = 'img/Osterfest.webp';
+const GALINHA_IMG = 'img/Galinha.jpg';
+const MARRECO_IMG = 'img/Marreco.jpg';
+const TUCANO_IMG = 'img/Tucano.webp';
+const RIOAMAZONAS_IMG = 'img/Rio-amazonas-1920x1080.jpg';
+const RIONILO_IMG = 'img/rio-nilo.jpg';
+const RIOBRUSQUE_IMG = 'img/rio.webp';
+const PARQUE_IMG = 'img/Parque-Esculturas.jpg';
+const PRAIA_IMG = 'img/praia.jpg';
+const PAVILHÃO_IMG = 'img/pavilhãoFenarreco.jpg';
+const CONSUL_IMG = 'img/consul.jpeg';
+const LUISXIV_IMG = 'img/luis_xiv.jpg';
+const NAPOLEAO_IMG = 'img/napoleao.webp';
+const BASILICA_IMG = 'img/basilica.jpg'; 
+const MATRIZ_IMG = 'img/matriz.jpg';
+const NOTREDAME_IMG = 'img/notredame.jpg';
+
 
 const questions = [
 
@@ -29,6 +42,16 @@ const questions = [
     ]
   },
 
+  //6
+  {
+    text: "Qual é o rio que corta a cidade de Brusque?",
+    options: [
+      { label: "RIO AMAZONAS", img: RIOAMAZONAS_IMG, correct: false },
+      { label: "RIO NILO", img: RIONILO_IMG, correct: false },
+      { label: "RIO ITAJAÍ-MIRIM", img: RIOBRUSQUE_IMG, correct: true },
+    ]
+  },
+
   //7
   {
     text: "Marque a imagem que representa uma comida típica de Brusque",
@@ -38,6 +61,37 @@ const questions = [
       { label: "MOQUECA", img: MOQUECA_IMG, correct: false },
     ]
   },
+
+  //8
+  {
+    text: "Qual imagem abaixo é o parque das esculturas de Brusque?",
+    options: [
+      { label: "PARQUE", img: PARQUE_IMG, correct: true },
+      { label: "PRAIA", img: PRAIA_IMG, correct: false },
+      { label: "PAVILHÃO", img: PAVILHÃO_IMG, correct: false },
+    ]
+  },
+
+  //9
+  {
+    text: "Qual desses era o Cônsul Carlos Renaux?",
+    options: [
+      { label: "CONSUL", img: CONSUL_IMG, correct: true },
+      { label: "LUIS XIV", img: LUISXIV_IMG, correct: false },
+      { label: "NAPOLEÃO", img: NAPOLEAO_IMG, correct: false },
+    ]
+  },
+
+  //10
+{
+    text: "Qual dessas é a Igreja Matriz de Brusque?",
+    options: [
+      { label: "MATRIZ", img: MATRIZ_IMG, correct: true },
+      { label: "BASILICA", img: BASILICA_IMG, correct: false },
+      { label: "NOTREDAME", img: NOTREDAME_IMG, correct: false },
+    ]
+  },
+
 
   // {
   //   text: "Qual é a cor da bandeira de Brusque?",
@@ -154,7 +208,7 @@ function showResultScreen() {
 
 function showErrorScreen(wrongLabel, question) {
   document.getElementById('errorMsg').innerHTML =
-    `VOCÊ ESCOLHEU <b>${wrongLabel}</b>, MAS ESSA NÃO É UMA COMIDA TÍPICA DE BRUSQUE.<br><br>CONTINUE, VOCÊ CONSEGUE! 💪`;
+    `VOCÊ ESCOLHEU <b>${wrongLabel}</b>, MAS ESSA NÃO É A RESPOSTA CERTA.<br><br>CONTINUE, VOCÊ CONSEGUE! 💪`;
   showScreen('sError');
 }
 
