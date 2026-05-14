@@ -54,7 +54,7 @@ Depois basta abrir o arquivo `index.html` no navegador.
 * Jean Reinaldo da Silva
 * Ana Alícia
 * Felipe Meireles da Silva
-* Welington
+* Welington da Cruz
 
 ## Observações
 

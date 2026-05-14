@@ -28,6 +28,12 @@ const ROUPA_IMG = 'img/roupa.png';
 const TORREEIFFEL_IMG = 'img/eiffel-tower.jpg';
 const LENCOISMARANHENSES_IMG = 'img/lencois-maranhenses.jpg';
 const STOPSHOP_IMG = 'img/stop-shop.jpg';
+const BandeiraBQ_IMG = 'img/BandeiradeBrusque.png';
+const BandeiraBL_IMG = 'img/BandeiradeBlumenau.png';
+const BandeiraIT_IMG = 'img/BandeiradeItajai.png';
+const Archer_img = 'img/Supermercado.jpg';
+const Zoobotanico_img = 'img/parquezoobotanico.jpeg';
+
 
 const questions = [
 
@@ -49,6 +55,24 @@ const questions = [
       { label: "TUCANO", img: TUCANO_IMG, correct: false },
     ]
   },
+//3
+{
+text: "Qual é a bandeira da nossa cidade?",
+options: [
+    { label: "bandeira brusque", img:BandeiraBQ_IMG ,correct: true },
+    { label:"banedeira blumeau",img: BandeiraBL_IMG , correct: false },
+   { label: "Bandeira itajai", img: BandeiraIT_IMG , correct: false },
+]
+},
+
+{
+text :"Onde podemos ver animais e natureza em Brusque?",
+options: [
+{ label: "Parque das esculturas", img:PARQUE_IMG , correct: false},
+{label: "Zoobotanico", img:Zoobotanico_img, correct:true},
+{label: "Supermercados Archer", img:Archer_img , correct:false},
+]
+},
 
   //6
   {
@@ -126,17 +150,17 @@ const questions = [
       { label:"Stop-Shop", img: STOPSHOP_IMG, correct:true },
       { label:"Leancois Maranhenses", img: LENCOISMARANHENSES_IMG, correct:false },
     ]
-  }
+  },
   
   //13
   {
-    text: " Brusque é conhecida principalmente por qual atividade?",
+   text: " Brusque é conhecida principalmente por qual atividade?",
     options: [
-     { label:"Refinaria", img: REFINARIA_IMG, correct:false  },
+     { label:"Refinaria", img: REFINARIA_IMG, correct:false },
       { label:"Fazenda", img: FAZENDA_IMG, correct:false },
-      { label:"Roupa", img: ROUPA_IMG, correct:true },
+     { label:"Roupa", img: ROUPA_IMG, correct:true },
     ]
-  }
+  },
 
   //15
   {
@@ -146,7 +170,7 @@ const questions = [
       { label:"Brusque", img: BRUSQUE_IMG, correct:true },
       { label:"Corinthians", img: CORINTHIANS_IMG, correct:false },
     ]
-  }
+  },
 ];
 
 let curQ = 0, score = 0, lastCorrect = false, answered = false;
