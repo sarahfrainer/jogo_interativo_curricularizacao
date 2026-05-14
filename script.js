@@ -22,6 +22,9 @@ const NOTREDAME_IMG = 'img/notredame.jpg';
 const BRUSQUE_IMG = 'img/brusque.png';
 const CORINTHIANS_IMG = 'img/corinthians.png';
 const FLAMENGO_IMG = 'img/logoflamengo.png';
+const FAZENDA_IMG = 'img/fazenda.png';
+const REFINARIA_IMG = 'img/refinaria.png';
+const ROUPA_IMG = 'img/roupa.png';
 
 const questions = [
 
@@ -111,6 +114,16 @@ const questions = [
   //     { label:"PARANÁ",         emoji:"🌲", correct:false },
   //   ]
   // }
+  
+  //13
+  {
+    text: " Brusque é conhecida principalmente por qual atividade?",
+    options: [
+     { label:"Refinaria", img: REFINARIA_IMG, correct:false  },
+      { label:"Fazenda", img: FAZENDA_IMG, correct:false },
+      { label:"Roupa", img: ROUPA_IMG, correct:true },
+    ]
+  }
 
   //15
   {
