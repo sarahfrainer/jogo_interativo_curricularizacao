@@ -25,6 +25,9 @@ const FLAMENGO_IMG = 'img/logoflamengo.png';
 const FAZENDA_IMG = 'img/fazenda.png';
 const REFINARIA_IMG = 'img/refinaria.png';
 const ROUPA_IMG = 'img/roupa.png';
+const TORREEIFFEL_IMG = 'img/eiffel-tower.jpg';
+const LENCOISMARANHENSES_IMG = 'img/lencois-maranhenses.jpg';
+const STOPSHOP_IMG = 'img/stop-shop.jpg';
 
 const questions = [
 
@@ -114,6 +117,16 @@ const questions = [
   //     { label:"PARANÁ",         emoji:"🌲", correct:false },
   //   ]
   // }
+
+   //12
+  {
+    text: "  Qual desses é um ponto turístico da cidade?",
+    options: [
+     { label:"Torre Eiffel", img: TORREEIFFEL_IMG, correct:false  },
+      { label:"Stop-Shop", img: STOPSHOP_IMG, correct:true },
+      { label:"Leancois Maranhenses", img: LENCOISMARANHENSES_IMG, correct:false },
+    ]
+  }
   
   //13
   {
