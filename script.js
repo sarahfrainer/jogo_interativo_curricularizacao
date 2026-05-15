@@ -33,6 +33,12 @@ const BandeiraBL_IMG = 'img/BandeiradeBlumenau.png';
 const BandeiraIT_IMG = 'img/BandeiradeItajai.png';
 const Archer_img = 'img/Supermercado.jpg';
 const Zoobotanico_img = 'img/parquezoobotanico.jpeg';
+const ALEMANHA_IMG = 'img/Bandeira-Alemanha.png';
+const PAISES_IMG = 'img/Bandeira-EUA-Inglaterra-Franca.png';
+const ESPANHA_IMG = 'img/espanha-japao-e-canada.png';
+const CARRO_IMG = 'img/carro.jpeg';
+const CAMERA_IMG = 'img/camera.jpg';
+const GELADEIRA_IMG = 'img/geladeira.jpg';
 
 
 const questions = [
@@ -124,6 +130,17 @@ options: [
     ]
   },
 
+  //11
+
+  {
+    text: " O que foi criado em Brusque?",
+    options: [
+      { label: "Carro", img: CARRO_IMG, correct: false },
+    { label: "Câmera", img: CAMERA_IMG, correct: false },
+    { label: "Geladeira", img: GELADEIRA_IMG, correct: true },
+    ]
+  },
+
 
   // {
   //   text: "Qual é a cor da bandeira de Brusque?",
@@ -159,6 +176,16 @@ options: [
      { label:"Refinaria", img: REFINARIA_IMG, correct:false },
       { label:"Fazenda", img: FAZENDA_IMG, correct:false },
      { label:"Roupa", img: ROUPA_IMG, correct:true },
+    ]
+  },
+
+  //14 
+  {
+   text: " As tradições de Brusque vieram principalmente de pessoas que vieram de onde?",
+    options: [
+     { label:"Alemanha", img: ALEMANHA_IMG, correct:true },
+      { label:"EUA, Inglaterra e França", img: PAISES_IMG, correct:false },
+     { label:"Espanha, Japão e Canadá", img: ESPANHA_IMG, correct:true },
     ]
   },
 
