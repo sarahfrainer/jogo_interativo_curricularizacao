@@ -25,8 +25,8 @@ const FLAMENGO_IMG = 'img/logoflamengo.png';
 const FAZENDA_IMG = 'img/fazenda.png';
 const REFINARIA_IMG = 'img/refinaria.png';
 const ROUPA_IMG = 'img/roupa.png';
-const TORREEIFFEL_IMG = 'img/eiffel-tower.jpg';
-const LENCOISMARANHENSES_IMG = 'img/lencois-maranhenses.jpg';
+const TORREEIFFEL_IMG = 'img/eiffel-tower003.jpg';
+const LENCOISMARANHENSES_IMG = 'img/lencois-maranhenses.png';
 const STOPSHOP_IMG = 'img/stop-shop.jpg';
 const BandeiraBQ_IMG = 'img/BandeiradeBrusque.png';
 const BandeiraBL_IMG = 'img/BandeiradeBlumenau.png';
@@ -35,10 +35,13 @@ const Archer_img = 'img/Supermercado.jpg';
 const Zoobotanico_img = 'img/parquezoobotanico.jpeg';
 const ALEMANHA_IMG = 'img/Bandeira-Alemanha.png';
 const PAISES_IMG = 'img/Bandeira-EUA-Inglaterra-Franca.png';
-const ESPANHA_IMG = 'img/espanha-japao-e-canada.png';
+const ESPANHA_IMG = 'img/Espanha-Japão-Canadá.png';
 const CARRO_IMG = 'img/carro.jpeg';
 const CAMERA_IMG = 'img/camera.jpg';
 const GELADEIRA_IMG = 'img/geladeira.jpg';
+const Havan_IMG = 'img/FotoHavan.png';
+const Ponteestaiada_IMG = 'img/Ponteestaiada.webp';
+const Unifebe_IMG = 'img/unifebe-1.jpg';
 
 
 const questions = [
@@ -70,7 +73,7 @@ options: [
    { label: "Bandeira itajai", img: BandeiraIT_IMG , correct: false },
 ]
 },
-
+//4
 {
 text :"Onde podemos ver animais e natureza em Brusque?",
 options: [
@@ -79,6 +82,16 @@ options: [
 {label: "Supermercados Archer", img:Archer_img , correct:false},
 ]
 },
+//5
+{
+text: " Em qual lugar existia um famoso relógio antigamente?:",
+options:[
+    {label: "Havan", img:Havan_IMG, correct:false},
+    {label: "Ponte Estaida Irineu Bornhausen", img:Ponteestaiada_IMG, correct:true},
+    {label: "Unifebe", img:Unifebe_IMG, correct:false},
+    ]
+},
+
 
   //6
   {
@@ -185,7 +198,7 @@ options: [
     options: [
      { label:"Alemanha", img: ALEMANHA_IMG, correct:true },
       { label:"EUA, Inglaterra e França", img: PAISES_IMG, correct:false },
-     { label:"Espanha, Japão e Canadá", img: ESPANHA_IMG, correct:true },
+     { label:"Espanha, Japão e Canadá", img: ESPANHA_IMG, correct:false },
     ]
   },
 
