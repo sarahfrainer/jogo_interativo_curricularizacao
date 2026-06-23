@@ -384,64 +384,90 @@ function readQ() { speak(activeQuestions[curQ].text); }
 
 class GerenciadorDeVoz {
   constructor() {
-  this.sintetizador = window.speechSynthesis;
-  this.vozes = [];
-  this.carregarVozes();
-  
-  if (this.sintetizador.onvoiceschanged !== undefined) {
-    this.sintetizador.onvoiceschanged = () => this.carregarVozes();
+    this.sintetizador = window.speechSynthesis;
+    this.vozes = [];
+    this.vozAtual = null;
+
+    this.carregarVozes();
+
+    if (this.sintetizador.onvoiceschanged !== undefined) {
+      this.sintetizador.onvoiceschanged = () => this.carregarVozes();
+    }
   }
-  
-  }
-  
+
   carregarVozes() {
-  this.vozes = this.sintetizador.getVoices();
+    this.vozes = this.sintetizador.getVoices();
+
+    // Prioriza vozes mais naturais (Google / Microsoft / Neural)
+    this.vozAtual =
+      this.vozes.find(v => v.lang === 'pt-BR' && /google|microsoft|neural/i.test(v.name)) ||
+      this.vozes.find(v => v.lang === 'pt-BR') ||
+      this.vozes.find(v => v.lang.startsWith('pt'));
   }
-  
+
+  normalizarTexto(texto) {
+    return texto
+      .toLowerCase()
+      .replace(/!/g, '... ')
+      .replace(/\?/g, '? ')
+      .replace(/  +/g, ' ')
+      .trim();
+  }
+
   falar(texto) {
-  // Evita falas vazias
-  if (!texto || !texto.trim()) return;
-  
-  // Interrompe a fala anterior apenas se realmente houver uma em andamento
-  if (this.sintetizador.speaking) {
-    this.sintetizador.cancel();
+    if (!texto || !texto.trim()) return;
+
+    const textoTratado = this.normalizarTexto(texto);
+
+    const fala = new SpeechSynthesisUtterance(textoTratado);
+
+    fala.lang = 'pt-BR';
+
+    // Variação leve (humanização)
+    fala.rate = 0.9 + Math.random() * 0.1;   // 0.9 - 1.0
+    fala.pitch = 0.95 + Math.random() * 0.1; // 0.95 - 1.05
+    fala.volume = 1;
+
+    if (this.vozAtual) {
+      fala.voice = this.vozAtual;
+    }
+
+    // Pequena pausa antes de falar (mais natural)
+    setTimeout(() => {
+      this.sintetizador.speak(fala);
+    }, 100);
   }
-  
-  const fala = new SpeechSynthesisUtterance(texto);
-  
-  // Configurações mais naturais
-  fala.lang = 'pt-BR';
-  fala.rate = 0.95;   // ligeiramente mais lenta
-  fala.pitch = 1.0;   // tom natural
-  fala.volume = 1.0;
-  
-  // Procura uma voz brasileira de boa qualidade
-  const vozIdeal =
-    this.vozes.find(v => v.lang === 'pt-BR' && v.name.includes('Google')) ||
-    this.vozes.find(v => v.lang === 'pt-BR') ||
-    this.vozes.find(v => v.lang.startsWith('pt'));
-  
-  if (vozIdeal) {
-    fala.voice = vozIdeal;
-  }
-  
-  this.sintetizador.speak(fala);
-}}
-  
+}
 
 const vozDoJogo = new GerenciadorDeVoz();
 
-function speak(text) {
-  vozDoJogo.falar(text);
+async function speak(text) {
+  const apiKey = "sk_6bf4184f94245d3ee96fced191c31619e790278dc29f7307";
+
+  const response = await fetch(
+    "https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL",
+    {
+      method: "POST",
+      headers: {
+        "Accept": "audio/mpeg",
+        "Content-Type": "application/json",
+        "xi-api-key": apiKey
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: "eleven_multilingual_v2",
+        voice_settings: {
+          stability: 0.4,
+          similarity_boost: 0.8
+        }
+      })
+    }
+  );
+
+  const audioBlob = await response.blob();
+  const audioUrl = URL.createObjectURL(audioBlob);
+
+  const audio = new Audio(audioUrl);
+  audio.play();
 }
 
-function confetti() {
-  const colors = ['#f5a623', '#3d9e3d', '#e74c3c', '#3498db', '#9b59b6', '#1abc9c', '#f39c12'];
-  for (let i = 0; i < 70; i++) {
-    const el = document.createElement('div');
-    el.className = 'cfp';
-    el.style.cssText = `left:${Math.random() * 100}vw;background:${colors[Math.floor(Math.random() * colors.length)]};animation-duration:${1.4 + Math.random() * 2}s;animation-delay:${Math.random() * .8}s;--d:${(Math.random() - .5) * 180}px;transform:rotate(${Math.random() * 360}deg)`;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
-  }
-}
