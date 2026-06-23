@@ -377,6 +377,35 @@ select.field option { color:#444; font-weight:600; }
 }
 .btn-guest:hover { background:var(--green-mid); color:white; transform:translateY(-2px); }
 .btn-guest:active { transform:translateY(1px); }
+
+/* ── DIFFICULTY BUTTONS ── */
+.btn-diff {
+  width:100%; padding:16px 28px;
+  border-radius:50px; border:none; cursor:pointer;
+  font-family:'Fredoka One',cursive;
+  font-size:1.2rem; color:white; letter-spacing:.5px;
+  transition:transform .12s,box-shadow .12s;
+  text-transform:uppercase;
+}
+.btn-diff:hover { transform:translateY(-3px); }
+.btn-diff:active { transform:translateY(2px); }
+.btn-easy {
+  background:radial-gradient(circle at 36% 34%,#6abf6a,#2d7a2d);
+  box-shadow:0 5px 0 #1a5a1a,0 8px 20px rgba(0,0,0,.2);
+}
+.btn-easy:hover { box-shadow:0 8px 0 #1a5a1a; }
+.btn-medium {
+  background:radial-gradient(circle at 36% 34%,#f7bc4e,#d4880a);
+  box-shadow:0 5px 0 #a06200,0 8px 20px rgba(0,0,0,.2);
+}
+.btn-medium:hover { box-shadow:0 8px 0 #a06200; }
+.btn-hard {
+  background:radial-gradient(circle at 36% 34%,#e87070,#c0392b);
+  box-shadow:0 5px 0 #922b21,0 8px 20px rgba(0,0,0,.2);
+}
+.btn-hard:hover { box-shadow:0 8px 0 #922b21; }
+
+#sDifficulty { background-image: url('img/bg_game.jpg'); }
 /* ── FORCE UPPERCASE ON ALL GAME TEXT ── */
 .login-title, .q-text, .opt-label, .result-title, .result-score,
 .result-sub, .end-title, .end-total, .error-title, .error-msg-text,

@@ -13,25 +13,42 @@
 <!-- ══════════ tela login ══════════ -->
 <div class="screen active" id="sLogin">
   <div class="card">
-    <div class="login-title">BEM-VINDO AO JOGO!</div>
-    <input class="field" id="nome" type="text" placeholder="NOME (opcional)" maxlength="40" autocomplete="off">
+    <div class="login-title">🎮 VEM JOGAR COMIGO!</div>
+    <input class="field" id="nome" type="text" placeholder="QUAL É O SEU NOME?" maxlength="40" autocomplete="off">
     <select class="field" id="escola">
-      <option value="" selected>ESCOLA (opcional)</option>
+      <option value="" selected>QUAL É A SUA ESCOLA?</option>
       <option>E.B.M. GETÚLIO VARGAS</option>
       <option>E.E.B. HERCÍLIO LUZ</option>
       <option>E.B.M. DOM JOÃO BECKER</option>
       <option>E.E.B. AUGUSTO ZIMMERMANN</option>
       <option>OUTRA ESCOLA</option>
     </select>
-    <input class="field" id="idade" type="number" placeholder="IDADE (opcional)" min="4" max="18">
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:20px;">
     <button class="btn-login" onclick="doLogin()">
-      <span>🔑</span> ENTRAR COM LOGIN
+      <span>⭐</span> VAMOS JOGAR!
     </button>
-    <button class="btn-guest" onclick="startGame()">
-      CONTINUAR SEM LOGIN
+    <button class="btn-guest" onclick="goToDifficulty()">
+      JOGAR SEM COLOCAR O NOME
     </button>
   </div>
+  </div>
+</div>
+
+<!-- ══════════ tela dificuldade ══════════ -->
+<div class="screen" id="sDifficulty">
+  <div class="card" style="text-align:center;">
+    <div class="login-title">🌟 QUAL NÍVEL VOCÊ QUER?</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:10px;">
+      <button class="btn-diff btn-easy" onclick="chooseDifficulty('facil')" onmouseenter="speak('Fácil! Vamos começar!')">
+        🌱 FÁCIL — VAMOS COMEÇAR!
+      </button>
+      <button class="btn-diff btn-medium" onclick="chooseDifficulty('medio')" onmouseenter="speak('Médio! Já sei bastante!')">
+        🔥 MÉDIO — JÁ SEI BASTANTE!
+      </button>
+      <button class="btn-diff btn-hard" onclick="chooseDifficulty('dificil')" onmouseenter="speak('Difícil! Sou expert!')">
+        🏆 DIFÍCIL — SOU EXPERT!
+      </button>
+    </div>
   </div>
 </div>
 
