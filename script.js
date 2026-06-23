@@ -69,7 +69,7 @@ const questions = [
 text: "Qual é a bandeira da nossa cidade?",
 options: [
     { label: "bandeira brusque", img:BandeiraBQ_IMG ,correct: true },
-    { label:"banedeira blumeau",img: BandeiraBL_IMG , correct: false },
+    { label:"bandeira blumenau",img: BandeiraBL_IMG , correct: false },
    { label: "Bandeira itajai", img: BandeiraIT_IMG , correct: false },
 ]
 },
