@@ -215,6 +215,7 @@ options:[
 
 let curQ = 0, score = 0, lastCorrect = false, answered = false;
 let activeQuestions = [];
+let currentReadLabels = []; // rótulos das opções na ordem em que aparecem na tela
 
 /* ── NÍVEIS DE DIFICULDADE ──
    Fácil: perguntas 0-4  (índices do array questions)
@@ -246,7 +247,23 @@ function doLogin() {
 
 function goToDifficulty() {
   showScreen('sDifficulty');
-  setTimeout(() => speak('Qual nível você quer?'), 400);
+  // Trava os botões enquanto a narração inicial toca, para evitar sobreposição
+  setDifficultyEnabled(false);
+  setTimeout(async () => {
+    // await: só segue depois que o áudio terminar de tocar
+    await speak('Qual nível você quer? Fácil, médio ou difícil?');
+    setDifficultyEnabled(true);
+  }, 400);
+}
+
+// Habilita/desabilita os 3 botões de nível ao mesmo tempo
+function setDifficultyEnabled(enabled) {
+  document.querySelectorAll('#sDifficulty .btn-diff').forEach(btn => {
+    btn.disabled = !enabled;                       // bloqueia o clique de fato
+    btn.style.opacity = enabled ? '' : '0.45';     // feedback visual de "travado"
+    btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+    btn.style.pointerEvents = enabled ? '' : 'none';
+  });
 }
 
 function chooseDifficulty(level) {
@@ -279,6 +296,7 @@ function loadQuestion() {
   const grid = document.getElementById('optGrid');
   grid.innerHTML = '';
   const opts = [...q.options].sort(() => Math.random() - .5);
+  currentReadLabels = opts.map(o => o.label); // guarda a ordem mostrada na tela
   opts.forEach(opt => {
     const card = document.createElement('div');
     card.className = 'opt';
@@ -288,7 +306,8 @@ function loadQuestion() {
     card.onclick = () => pick(card, opt.correct, opt.label, q.text);
     grid.appendChild(card);
   });
-  setTimeout(() => speak(q.text), 400);
+  // Lê a pergunta e, em seguida, cada opção em voz alta (na ordem da tela)
+  setTimeout(() => readQuestionAndOptions(q.text, currentReadLabels), 400);
 }
 
 function pick(card, correct, label, question) {
@@ -380,7 +399,7 @@ function showEndScreen() {
   speak(pct === 1 ? 'Parabéns! Você acertou tudo!' : 'Fim de jogo! Você acertou ' + score + ' de ' + total + ' perguntas!');
 }
 
-function readQ() { speak(activeQuestions[curQ].text); }
+function readQ() { readQuestionAndOptions(activeQuestions[curQ].text, currentReadLabels); }
 
 class GerenciadorDeVoz {
   constructor() {
@@ -441,33 +460,102 @@ class GerenciadorDeVoz {
 
 const vozDoJogo = new GerenciadorDeVoz();
 
-async function speak(text) {
-  const apiKey = "sk_6bf4184f94245d3ee96fced191c31619e790278dc29f7307";
+// ──────────────────────────────────────────────────────────────
+//  SISTEMA DE ÁUDIO (ElevenLabs) — sem sobreposição e mais devagar
+// ──────────────────────────────────────────────────────────────
+// IMPORTANTE: a chave abaixo fica VISÍVEL para qualquer pessoa que abrir
+// o código no navegador. Como o repositório é público, ela já está exposta.
+// Recomendação: gerar uma nova chave e movê-la para um pequeno backend/proxy.
+const ELEVEN_API_KEY = "sk_6bf4184f94245d3ee96fced191c31619e790278dc29f7307";
+const ELEVEN_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
 
-  const response = await fetch(
-    "https://api.elevenlabs.io/v1/text-to-speech/EXAVITQu4vr4xnSDxMaL",
-    {
-      method: "POST",
-      headers: {
-        "Accept": "audio/mpeg",
-        "Content-Type": "application/json",
-        "xi-api-key": apiKey
-      },
-      body: JSON.stringify({
-        text: text,
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-          stability: 0.4,
-          similarity_boost: 0.8
-        }
-      })
-    }
-  );
+let _currentAudio = null;     // o <audio> que está tocando agora
+let _currentResolve = null;   // resolve da Promise do áudio atual (para liberar quem aguarda)
+let _readToken = 0;           // identifica a "sessão" de leitura; muda quando algo interrompe
 
-  const audioBlob = await response.blob();
-  const audioUrl = URL.createObjectURL(audioBlob);
-
-  const audio = new Audio(audioUrl);
-  audio.play();
+// Para o áudio que estiver tocando e libera qualquer espera pendente
+function stopAudio() {
+  if (_currentAudio) {
+    try { _currentAudio.pause(); } catch (e) {}
+    try { URL.revokeObjectURL(_currentAudio.src); } catch (e) {}
+    _currentAudio = null;
+  }
+  if (_currentResolve) {
+    const r = _currentResolve;
+    _currentResolve = null;
+    r(); // resolve a Promise pendente, evitando travamentos
+  }
 }
 
+// Toca UM texto e devolve uma Promise que só resolve quando o áudio termina.
+// Se a rede/áudio falhar, resolve mesmo assim (o jogo nunca trava por causa do som).
+function playOne(text) {
+  return new Promise(async (resolve) => {
+    stopAudio();                       // garante que nada esteja tocando junto
+    if (!text || !text.trim()) return resolve();
+    _currentResolve = resolve;
+    try {
+      const response = await fetch(
+        "https://api.elevenlabs.io/v1/text-to-speech/" + ELEVEN_VOICE_ID,
+        {
+          method: "POST",
+          headers: {
+            "Accept": "audio/mpeg",
+            "Content-Type": "application/json",
+            "xi-api-key": ELEVEN_API_KEY
+          },
+          body: JSON.stringify({
+            text: text,
+            model_id: "eleven_multilingual_v2",
+            voice_settings: {
+              stability: 0.5,
+              similarity_boost: 0.8,
+              speed: 0.85            // < 1.0 = fala mais devagar (faixa válida: 0.7 a 1.2)
+            }
+          })
+        }
+      );
+
+      // Se outro áudio já assumiu enquanto buscávamos, abandona este
+      if (_currentResolve !== resolve) return;
+      if (!response.ok) { _currentResolve = null; return resolve(); }
+
+      const blob = await response.blob();
+      if (_currentResolve !== resolve) return;
+
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      _currentAudio = audio;
+
+      const done = () => {
+        try { URL.revokeObjectURL(url); } catch (e) {}
+        if (_currentAudio === audio) _currentAudio = null;
+        if (_currentResolve === resolve) { _currentResolve = null; resolve(); }
+      };
+      audio.onended = done;
+      audio.onerror = done;
+      audio.play().catch(done); // navegador pode bloquear autoplay; resolve sem travar
+    } catch (e) {
+      console.error("Falha no áudio:", e);
+      if (_currentResolve === resolve) { _currentResolve = null; resolve(); }
+    }
+  });
+}
+
+// Fala única (uso geral). Cancela qualquer leitura em sequência que esteja rolando.
+function speak(text) {
+  _readToken++;            // invalida a leitura de pergunta+opções, se houver
+  return playOne(text);
+}
+
+// Lê a pergunta e DEPOIS cada opção, uma de cada vez (sem sobrepor).
+// Se o aluno clicar numa resposta no meio, a sequência é cancelada.
+async function readQuestionAndOptions(questionText, labels) {
+  const myToken = ++_readToken;     // abre uma nova sessão de leitura
+  await playOne(questionText);
+  if (myToken !== _readToken) return;            // foi interrompida
+  for (const label of (labels || [])) {
+    await playOne(label);
+    if (myToken !== _readToken) return;          // foi interrompida
+  }
+}
